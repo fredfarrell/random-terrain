@@ -1,0 +1,3 @@
+Project to generate random terrain/continents (earth/sea) on a plane or on a
+sphere. Idea is to generate a random height map with appropriate correlations
+and add a sea level. 
