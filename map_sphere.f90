@@ -51,36 +51,29 @@ implicit none
             x = rad*cos(phi)  
             y = rad*sin(phi)
 
-            !do m = 1,LSIZE
-                m=75
+            do m = 1,LSIZE
  
                 rad_m = sqrt(real(LSIZE*LSIZE/4 - (m-LSIZE/2)*(m-LSIZE/2))) 
 
                 if (rad.eq.0) rad=1
 
-                !do l = int(0.5*LSIZE-rad),int(0.5*LSIZE+rad)
-                    l=75
+                do l = int(0.5*LSIZE-rad),int(0.5*LSIZE+rad)
                 
-                    phi_m = 2*pi*real(l-0.5*LSIZE+rad)/real(2*rad)
+                    phi_m = 2*pi*real(l-0.5*LSIZE+rad_m)/real(2*rad_m)
                     z_m = (m-LSIZE/2)
                     x_m = rad_m*cos(phi_m)
                     y_m = rad_m*sin(phi_m) 
                     distance = sqrt( real((x-x_m)*(x-x_m) + (y-y_m)*(y-y_m) + (z-z_m)*(z-z_m)) )
 
-                    !if(j.eq.80) write(6,*) i,j,x,y,z,distance,phi
-                    !if(i.eq.90 .and. j.eq.80) write(6,*) i,j,x,y,z,distance,phi
-    
-                    !write(6,*) phi_m,i,j,l,m,x,x_m,y,y_m,z,z_m,distance
  
-                    !if(distance<2*corr_length) elevation(i,j) = elevation(i,j) + random_terrain(l,m)*exp(-distance/corr_length)  
-                    !normalization(i,j) = normalization(i,j) + exp(-distance/corr_length)     
+                    if(distance<2*corr_length) then
+                        elevation(i,j) = elevation(i,j) + random_terrain(l,m)*exp(-distance/corr_length)  
+                        normalization(i,j) = normalization(i,j) + exp(-distance/corr_length)      
+                    endif   
 
-                    elevation(i,j) = distance  
-                      
+                 enddo
 
-                 !enddo
-
-            !enddo
+            enddo
            
 
         enddo
@@ -100,8 +93,7 @@ implicit none
             x = rad*cos(phi)
             y = rad*sin(phi)
 
-            write(6,*) i,j,random_terrain(i,j),elevation(i,j),normalization(i,j),x,y,z,phi 
-            !write(6,*) i,j,phi,x,y,z,elevation(i,j)          
+            write(6,*) i,j,random_terrain(i,j),elevation(i,j),normalization(i,j),x,y,z,phi        
 
         enddo
     
